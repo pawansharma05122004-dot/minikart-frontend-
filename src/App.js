@@ -11,7 +11,7 @@ function App() {
   return (
     <div>
       <BrowserRouter >
-        <ContextData>
+        {/* <ContextData> */}
           <Header />
           <Routes>
             <Route path='/' element={<Home />} />
@@ -22,7 +22,7 @@ function App() {
             <Route path='*' element={<img src={'https://blog.fluidui.com/assets/images/posts/get-notes.png'} alt='notvalid' />} />
           </Routes>
           <Footer />
-        </ContextData>
+        {/* </ContextData> */}
       </BrowserRouter>
     </div>
   );
