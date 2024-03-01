@@ -35,11 +35,19 @@ const Home = () => {
           data.data.map((items)=>{
             console.log(items)
             return(
-              <>
+              <div className='flex space-around'>
+                <div>
+              <img src={items.product_img} alt='img' height='200px' width='400px'/>
+                </div>
+                <div>
               <p className='text-2xl'>{items.product_name}</p>
-              <img src={items.product_img} alt='img'/>
-             < p>{items.price}</p>
-              </>
+
+             < p  className='text-2xl'>{items.price}</p>
+             <button className='bg-green-600'>Buy Now</button>
+             <button className='bg-blue-600'>Add to Cart</button>
+                </div>
+
+              </div>
             )
           })
         }
