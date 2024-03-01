@@ -16,6 +16,11 @@ function Header() {
             }>SignUp</NavLink>
           </li>
           <li>
+            <NavLink to='/login' className={({ isActive }) =>
+              `${isActive ? "text-orange-600" : "hover:text-green-600 "} font-bold`
+            }>Login</NavLink>
+          </li>
+          <li>
             <NavLink to='/cart' className={({ isActive }) =>
               `${isActive ? "text-orange-600" : "hover:text-green-600 "} font-bold`
             }>Check Cart</NavLink>
