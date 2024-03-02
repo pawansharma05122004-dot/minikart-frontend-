@@ -6,6 +6,7 @@ import Header from "./components/Landing/Header";
 import SignUp from "./components/Authontication/SignUp";
 import  Login  from "./components/Authontication/LogIn";
 import BuyNow from "./components/Main/BuyNow";
+import ProductById from "./components/Main/ProductById";
 function App() {
 
   return (
@@ -13,7 +14,9 @@ function App() {
       <BrowserRouter >
           <Header />
           <Routes>
+
             <Route path='/' element={<Home />} />
+            <Route path='/productbyid/:productId' element={<ProductById/>} />
             <Route path='/buynow/:productId' element={<BuyNow/>} />
 
             <Route path='/signup' element={<SignUp/>} />

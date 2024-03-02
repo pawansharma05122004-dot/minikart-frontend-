@@ -12,7 +12,7 @@ function BuyNow() {
 
         const getBuyDetails = async (body) => {
             try {
-                const result = await axios.post('http://localhost:8000/api/v1/minikart/purchase/getPurchaseItem', body);
+                const result = await axios.post(`${process.env.REACT_APP_API_URL}/purchase/getPurchaseItem`, body);
                 setItem(result.data.result);
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -23,22 +23,30 @@ function BuyNow() {
             purchaseUser: UserID,
             productDetails: productId
         });
+
+        // Disable body scrolling
+        document.body.style.overflow = 'hidden';
+
+        return () => {
+            // Re-enable body scrolling when the component unmounts
+            document.body.style.overflow = 'auto';
+        };
     }, [productId]);
 
     return (
-        <div>
-            <div className='bg-blue-400'>
-                <h1>Item Ordered Successfully</h1>
-                <div className='border bg-green-300 rounded-md'>
+        <div className="min-h-screen flex justify-center items-center bg-gray-100">
+            <div className='bg-blue-400 p-8 rounded-lg shadow-lg'>
+                <h1 className="text-2xl font-bold mb-4">Item Ordered Successfully</h1>
+                <div className='border bg-green-300 rounded-md p-4'>
                     {item ? (
                         <>
-                            <ul>Email: {item.purchaseUser.email}</ul>
-                            <ul>Name: {item.purchaseUser.name}</ul>
-                            <ul>Product Name: {item.productDetails.product_name}</ul>
-                            <ul>Price: {item.productDetails.price}</ul>
+                            <p><span className="font-semibold">Email:</span> {item.purchaseUser.email}</p>
+                            <p><span className="font-semibold">Name:</span> {item.purchaseUser.name}</p>
+                            <p><span className="font-semibold">Product Name:</span> {item.productDetails.product_name}</p>
+                            <p><span className="font-semibold">Price:</span> {item.productDetails.price}</p>
                         </>
                     ) : (
-                        <p>Please wait...</p>
+                        <p className="text-center">Please wait...</p>
                     )}
                 </div>
             </div>

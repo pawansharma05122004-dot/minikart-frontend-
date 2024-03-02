@@ -21,8 +21,8 @@ export default function SignUp() {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            const postUser = await axios.post(`http://localhost:8000/api/v1/minikart/users/signUp`, user)
-            console.log(postUser)
+            const postUser = await axios.post(`${process.env.REACT_APP_API_URL}/users/signUp`, user)
+
             if (postUser.data) {
                  toast("Ragisterd Succesfully");
             }

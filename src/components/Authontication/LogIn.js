@@ -21,7 +21,7 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            const postUser = await axios.post('http://localhost:8000/api/v1/minikart/users/login', user)
+            const postUser = await axios.post(`${process.env.REACT_APP_API_URL}//users/login`, user)
             if (postUser.data) {
                 toast("Login Successfully");
                    let token =postUser.data.token
