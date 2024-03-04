@@ -12,7 +12,6 @@ const Home = () => {
   const fetchData = async () => {
     try {
       const result = await axios.get(`${process.env.REACT_APP_API_URL}/products/getProduct`);
-      console.log(result.data.result)
       setData({ data: result.data.result, isLoading: true });
     } catch (error) {
       console.error('Error fetching data:', error);

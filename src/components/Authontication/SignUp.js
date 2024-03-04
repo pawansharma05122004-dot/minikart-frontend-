@@ -12,23 +12,24 @@ const style = {
 export default function SignUp() {
     const [user, setUser] = useState('')
     const handleUserValue = (e) => {
-        const { name, value } = e.target;
-        setUser({
-            ...user, [name]: value
-        })
+        const { name, value, type, checked } = e.target;
+        setUser(prevState => ({
+            ...prevState,
+            [name]: type === 'checkbox' ? checked : value
+        }));
     }
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
             const postUser = await axios.post(`${process.env.REACT_APP_API_URL}/users/signUp`, user)
-
+             console.log(postUser)
             if (postUser.data) {
                  toast("Ragisterd Succesfully");
             }
             return postUser
         } catch (err) {
-            throw err
+            console.log(err)
         }
     }
 
@@ -60,13 +61,14 @@ export default function SignUp() {
                                 </div>
 
                                 <div class="flex items-start">
-                                    <div class="flex items-center h-5">
-                                        <input id="terms" aria-describedby="terms" type="checkbox" className={style.inputBar} required="" />
-                                    </div>
+
+                                    <label for="password" className={style.label}>If you customer please check the box..</label>
+                                        <input id="terms" aria-describedby="terms" name="customer" checked={user.customer === 'false'} type="checkbox" value={user.customer || ''} onChange={(e) => handleUserValue(e)} className={style.inputBar} required="" />
+
                                 </div>
                                 <button type="submit" className="bg-blue-500 text-2xl rounded-md" >Create an account</button>
                                 <p class="text-sm font-light text-gray-500 dark:text-gray-400">
-                                    Already have an account? <Link to="login" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Login here</Link>
+                                    Already have an account? <Link to="/login" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Login here</Link>
                                 </p>
                             </form>
 
