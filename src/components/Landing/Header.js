@@ -25,6 +25,11 @@ function Header() {
               `${isActive ? "text-orange-600" : "hover:text-green-600 "} font-bold`
             }>Check Cart</NavLink>
           </li>
+          <li>
+            <NavLink to='/postProduct' className={({ isActive }) =>
+              `${isActive ? "text-orange-600" : "hover:text-green-600 "} font-bold`
+            }>Post Product</NavLink>
+          </li>
         </div>
       </nav>
     </header>
