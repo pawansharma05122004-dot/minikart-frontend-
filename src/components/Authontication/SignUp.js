@@ -23,9 +23,9 @@ export default function SignUp() {
         e.preventDefault()
         try {
             const postUser = await axios.post(`${process.env.REACT_APP_API_URL}/users/signUp`, user)
-             console.log(postUser)
+            console.log(postUser)
             if (postUser.data) {
-                 toast("Ragisterd Succesfully");
+                toast("Ragisterd Succesfully");
             }
             return postUser
         } catch (err) {
@@ -59,19 +59,15 @@ export default function SignUp() {
                                     <label for="password" className={style.label}>Password</label>
                                     <input type="password" name="password" id="password" placeholder="••••••••" className={style.inputBar} required="" value={user.password || ''} onChange={(e) => handleUserValue(e)} />
                                 </div>
-
                                 <div class="flex items-start">
-
                                     <label for="password" className={style.label}>If you customer please check the box..</label>
-                                        <input id="terms" aria-describedby="terms" name="customer" checked={user.customer === 'false'} type="checkbox" value={user.customer || ''} onChange={(e) => handleUserValue(e)} className={style.inputBar} required="" />
-
+                                    <input id="terms" aria-describedby="terms" name="customer" checked={user.customer === 'false'} type="checkbox" value={user.customer || ''} onChange={(e) => handleUserValue(e)} className={style.inputBar} required="" />
                                 </div>
                                 <button type="submit" className="bg-blue-500 text-2xl rounded-md" >Create an account</button>
                                 <p class="text-sm font-light text-gray-500 dark:text-gray-400">
                                     Already have an account? <Link to="/login" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Login here</Link>
                                 </p>
                             </form>
-
                             <ToastContainer />
                         </div>
                     </div>

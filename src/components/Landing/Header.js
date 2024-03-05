@@ -5,16 +5,12 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function Header() {
   const userObject = JSON.parse(localStorage.getItem('user')) || '';
-console.log(userObject.user.customer)
+
   const handleLogout = () => {
     localStorage.removeItem('user');
     if (localStorage.getItem('user')) {
-
-
-
       toast("LogOut");
-  }
-
+    }
   };
 
   return (
@@ -27,43 +23,38 @@ console.log(userObject.user.customer)
             }>Home</NavLink>
           </li>
           <li>
-            <NavLink to='/cart' className={({ isActive }) =>
+            <NavLink to='/addToCart' className={({ isActive }) =>
               `${isActive ? "text-orange-600" : "hover:text-green-600 "} font-bold`
             }>Check Cart</NavLink>
           </li>
-          { !userObject.user.customer?
-          <li>
-
-           <NavLink to='/postProduct' className={({ isActive }) =>
-            `${isActive ? "text-orange-600" : "hover:text-green-600 "} font-bold`
-          }>Post Product</NavLink>
-
-
-          </li>:null
+          {!userObject.user || !userObject ?
+            <li>
+              <NavLink to='/postProduct' className={({ isActive }) =>
+                `${isActive ? "text-orange-600" : "hover:text-green-600 "} font-bold`
+              }>Post Product</NavLink>
+            </li> : null
           }
           <li>
+            <NavLink to='/signup' className={({ isActive }) =>
+              `${isActive ? "text-orange-600" : "hover:text-green-600 "} font-bold`
+            }>SignUp</NavLink>
+          </li>
 
+          <li>
+            {userObject.user ? (
+              <span onClick={handleLogout} className='cursor-pointer font-bold'>
+                Log Out
+              </span>
+            ) : (
+              <>
+                <NavLink to='/login' className={({ isActive }) =>
+                  `${isActive ? "text-orange-600" : "hover:text-green-600 "} font-bold`
+                }>Login</NavLink>
+              </>
 
-<NavLink to='/signup' className={({ isActive }) =>
-  `${isActive ? "text-orange-600" : "hover:text-green-600 "} font-bold`
-}>SignUp</NavLink>
-</li>
-
-<li>
-{userObject.user ? (
-  <span onClick={handleLogout} className='cursor-pointer font-bold'>
-    Log Out
-  </span>
-) : (
-  <>
-    <NavLink to='/login' className={({ isActive }) =>
-      `${isActive ? "text-orange-600" : "hover:text-green-600 "} font-bold`
-    }>Login</NavLink>
-  </>
-
-)}
-  <ToastContainer />
-</li>
+            )}
+            <ToastContainer />
+          </li>
         </div>
       </nav>
     </header>

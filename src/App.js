@@ -8,6 +8,7 @@ import  Login  from "./components/Authontication/LogIn";
 import BuyNow from "./components/Main/BuyNow";
 import ProductById from "./components/Main/ProductById";
 import PostProduct from "./components/Seller/PostProduct";
+import AddToCart from "./components/Main/AddToCart";
 function App() {
 
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path='/productbyid/:productId' element={<ProductById/>} />
             <Route path='/buynow/:productId' element={<BuyNow/>}/>
             <Route path='/postProduct' element={<PostProduct/>}/>
+            <Route path='/addToCart' element={<AddToCart/>}/>
             <Route path='/signup' element={<SignUp/>} />
             <Route path='/login' element={<Login/>} />
             <Route path='*' element={<img src={'https://blog.fluidui.com/assets/images/posts/get-notes.png'} alt='notvalid' />} />

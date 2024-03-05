@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [data, setData] = useState({ data: [], isLoading: false });
+  const navigate = useNavigate();
 
+  const userObject = JSON.parse(localStorage.getItem('user'));
+  const UserID = userObject.user._id;
   useEffect(() => {
     fetchData();
   }, []);
@@ -18,6 +22,24 @@ const Home = () => {
     }
   };
 
+  const handleAddToCart = async (productId) => {
+    try {
+      const result = await axios.post(`${process.env.REACT_APP_API_URL}/cartItem/postCartItem`,{
+        userId: UserID,
+        productId:productId,
+        quantity:"1"
+      })
+      console.log(result)
+      if (result.data.message === "item added successfully") {
+        navigate("/addToCart")
+      }else{
+        console.log(result.data.result)
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   return (
     <div className='flex flex-col min-h-screen'>
       <div className='container mx-auto pt-5 flex-grow'>
@@ -28,7 +50,6 @@ const Home = () => {
               return (
                 <>
                   <div key={item._id} className='flex flex-col bg-white shadow-md rounded-lg overflow-hidden'>
-
                     <img src={item.product_img !== null ? item.product_img : '/noimage.png'} alt='product' className='h-64 w-full object-cover' />
                     <div className='p-4'>
                       <h3 className='text-xl font-semibold'>{item.product_name}</h3>
@@ -39,7 +60,7 @@ const Home = () => {
                             View Details
                           </button>
                         </Link>
-                        <button className='py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:bg-blue-700'>
+                        <button className='py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:bg-blue-700' onClick={() => handleAddToCart(item._id)}>
                           Add to Cart
                         </button>
                       </div>
