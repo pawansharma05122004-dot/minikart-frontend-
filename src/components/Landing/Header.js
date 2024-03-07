@@ -7,7 +7,7 @@ function Header() {
   const userObject = JSON.parse(localStorage.getItem('user')) || '';
 
   const handleLogout = () => {
-    localStorage.removeItem('user');
+    localStorage.removeItem('token');
     if (localStorage.getItem('user')) {
       toast("LogOut");
     }

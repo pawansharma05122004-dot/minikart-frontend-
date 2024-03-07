@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function AddToCart() {
     const { productId } = useParams();
@@ -15,21 +17,13 @@ function AddToCart() {
                 const result = await axios.post(`${process.env.REACT_APP_API_URL}/cartItem/getaddToCart`, body);
                 setItem(result.data.result);
             } catch (error) {
-                console.error('Error fetching data:', error);
+                toast.error(error.response.data.err)
             }
         };
 
-        getBuyDetails({
+         getBuyDetails({
             userId: UserID,
         });
-
-        // Disable body scrolling
-        document.body.style.overflow = 'hidden';
-
-        return () => {
-            // Re-enable body scrolling when the component unmounts
-            document.body.style.overflow = 'auto';
-        };
     }, [productId]);
 
     return (
@@ -40,19 +34,15 @@ function AddToCart() {
                     {item ? item.map((item) => {
                         console.log(item)
                         return (
-                            <>
-                                <p><span className="font-semibold">Name:</span> {item.productId
-                                }</p>
-                                <p><span className="font-semibold">Product Name:</span> {item.productId
-                                }</p>
-                                <p><span className="font-semibold">Price:</span> {item.productId
-                                }</p>
-                            </>
+                            <ul>
+
+                            </ul>
                         )
                     }) : (
                         <p className="text-center">Please wait...</p>
                     )}
                 </div>
+                    <ToastContainer/>
             </div>
         </div>
     );

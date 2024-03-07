@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function BuyNow() {
     const { productId } = useParams();
@@ -15,7 +17,7 @@ function BuyNow() {
                 const result = await axios.post(`${process.env.REACT_APP_API_URL}/purchase/getPurchaseItem`, body);
                 setItem(result.data.result);
             } catch (error) {
-                console.error('Error fetching data:', error);
+                toast.error(error.response.data.err)
             }
         };
 
@@ -49,6 +51,7 @@ function BuyNow() {
                         <p className="text-center">Please wait...</p>
                     )}
                 </div>
+                <ToastContainer />
             </div>
         </div>
     );

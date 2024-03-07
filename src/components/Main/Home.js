@@ -5,10 +5,11 @@ import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [data, setData] = useState({ data: [], isLoading: false });
+  const [modal ,setModal] = useState(false)
   const navigate = useNavigate();
 
-  const userObject = JSON.parse(localStorage.getItem('user'));
-  const UserID = userObject.user._id;
+  const userObject = JSON.parse(localStorage.getItem('user'))||'';
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -25,18 +26,19 @@ const Home = () => {
   const handleAddToCart = async (productId) => {
     try {
       const result = await axios.post(`${process.env.REACT_APP_API_URL}/cartItem/postCartItem`,{
-        userId: UserID,
-        productId:productId,
+        userId: userObject.user._id||'',
+        productById:productId,
         quantity:"1"
       })
-      console.log(result)
-      if (result.data.message === "item added successfully") {
+
+      if (result.data) {
         navigate("/addToCart")
       }else{
         console.log(result.data.result)
       }
     } catch (err) {
-      console.log(err)
+
+      console.log(err.response)
     }
   }
 
@@ -73,6 +75,11 @@ const Home = () => {
           ) : (
             <p>Loading...</p>
           )}
+          <div>
+            <h1>Please SignUp or Login Accoutn</h1>
+            <button>Login</button>
+            <button>SignUp</button>
+          </div>
         </div>
       </div>
     </div>

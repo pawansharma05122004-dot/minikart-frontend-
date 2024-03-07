@@ -13,6 +13,7 @@ const style = {
 const Login = () => {
 
     const [user, setUser] = useState('')
+    const [error,setError] = useState(null)
     const navigate = useNavigate()
     const handleUserValue = (e) => {
         const { name, value } = e.target;
@@ -36,9 +37,10 @@ const Login = () => {
 
             return postUser
         } catch (err) {
-            throw err
+            toast.error(err.response.data.err)
         }
     }
+
     return (
         <div>
             <section class="bg-red-50 dark:bg-gray-900">
