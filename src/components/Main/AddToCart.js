@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -25,6 +25,7 @@ function AddToCart() {
             userId: UserID,
         });
     }, [productId]);
+
 
     return (
         <div className="h-screen flex justify-center items-center bg-gray-100">
@@ -59,7 +60,10 @@ function AddToCart() {
                     </table>
 
                 </div>
-                <button>Order Item</button>
+                     <Link to = '/OrderProduct'>
+                     <button>Order Item</button>
+                     </Link>
+
                 <ToastContainer />
             </div>
         </div >

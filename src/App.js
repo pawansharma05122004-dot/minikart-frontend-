@@ -5,7 +5,7 @@ import Home from "./components/Main/Home";
 import Header from "./components/Landing/Header";
 import SignUp from "./components/Authontication/SignUp";
 import  Login  from "./components/Authontication/LogIn";
-import OrderAddress from "./components/Main/OrderAddress";
+import OrderProduct from "./components/Main/OrderProduct";
 import ProductById from "./components/Main/ProductById";
 import PostProduct from "./components/Seller/PostProduct";
 import AddToCart from "./components/Main/AddToCart";
@@ -18,7 +18,7 @@ function App() {
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/productbyid/:productId' element={<ProductById/>} />
-            <Route path='/orderAddress/:productId' element={<OrderAddress/>}/>
+            <Route path='/OrderProduct' element={<OrderProduct/>}/>
             <Route path='/postProduct' element={<PostProduct/>}/>
             <Route path='/addToCart' element={<AddToCart/>}/>
             <Route path='/signup' element={<SignUp/>} />
