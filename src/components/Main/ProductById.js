@@ -36,7 +36,7 @@ function ProductById() {
                         <img src={product.product_img} alt='product' className='h-72 w-72 mx-auto mb-4'/>
                         <h2 className="text-2xl font-semibold mb-2">{product.product_name}</h2>
                         <p className="text-lg text-gray-600 mb-4">Price: ${product.price}</p>
-                        <Link to={`/buynow/${product._id}`}>
+                        <Link to={`/orderAddress/${product._id}`}>
                             <button className='block w-full py-2 px-4 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:bg-green-700'>
                                 Buy Now
                             </button>

@@ -4,7 +4,7 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-function BuyNow() {
+function OrderAddress() {
     const { productId } = useParams();
     const [item, setItem] = useState(null);
 
@@ -57,4 +57,4 @@ function BuyNow() {
     );
 }
 
-export default BuyNow;
+export default OrderAddress;
