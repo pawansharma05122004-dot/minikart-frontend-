@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 const Home = () => {
   const [data, setData] = useState({ data: [], isLoading: false });
   const [modal ,setModal] = useState(false)
+  const [cartButton ,setCartButton] = useState('Add to Cart')
   const navigate = useNavigate();
 
   const userObject = JSON.parse(localStorage.getItem('user'))||'';
@@ -27,10 +28,13 @@ const Home = () => {
     try {
       const result = await axios.post(`${process.env.REACT_APP_API_URL}/cartItem/postCartItem`,{
         userId: userObject.user._id||'',
-        productById:productId,
+        productId:productId,
         quantity:"1"
       })
-
+      console.log('post',result)
+      if(result.status === 201){
+        setCartButton('Check Cart')
+      }
       if (result.data) {
         navigate("/addToCart")
       }else{
@@ -62,11 +66,9 @@ const Home = () => {
                           </button>
                         </Link>
                         <button className='py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:bg-blue-700' onClick={() => handleAddToCart(item._id)}>
-                          Add to Cart
+                          {cartButton}
                         </button>
-                        <button className='py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:bg-blue-700' onClick={() => handleAddToCart(item._id)}>
-                          Add to Cart
-                        </button>
+
                       </div>
                     </div>
                   </div>

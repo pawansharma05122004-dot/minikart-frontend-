@@ -24,9 +24,6 @@ function OrderProduct() {
         }
     }
 
-
-
-
     return (
         <div className=" bg-gray-100">
             <div className=' p-8 rounded-lg shadow-lg'>
