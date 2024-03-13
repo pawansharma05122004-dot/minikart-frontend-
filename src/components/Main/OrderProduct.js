@@ -47,6 +47,10 @@ function OrderProduct() {
             "price": "1000",
             "quantity": "2"
         })
+        if(result.data.id){
+            setSessionCheckOut(result.data.id)
+            toast.success('payment done successfully')
+        }
         setSessionCheckOut(result.data.id)
 
         const paymentData = stripe.redirectToCheckout({
@@ -129,7 +133,6 @@ function OrderProduct() {
                         <button className='bg-green-200' onClick={makePayment}>CheckOut</button>
                     </div>
                 </div>
-
                 <ToastContainer />
             </div>
         </div>
