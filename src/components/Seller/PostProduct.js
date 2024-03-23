@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
+import { useNavigate } from "react-router";
 
 const style = {
     inputBar: "w-full px-4 py-2.5 mt-2 mb-4 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500",
@@ -9,8 +10,6 @@ const style = {
 }
 
 const PostProduct = () => {
-
-
     const [imgUpload,setImgUpload]= useState('')
     const [productName ,setProductName] = useState('')
     const [brand ,setBrand] = useState('')
@@ -19,7 +18,7 @@ const PostProduct = () => {
     const [device,setDeviceType] = useState('')
     const [discount,setDiscount ]= useState('')
     const [thumbnail,setThumbnail ]= useState('')
-
+    const navigate = useNavigate()
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -38,6 +37,7 @@ const PostProduct = () => {
 
             if (postProducts.data) {
                 toast("Product Added Success Fully");
+                navigate('/')
             }
 
         } catch (err) {

@@ -29,7 +29,10 @@ export default function SignUp() {
             }
             return postUser
         } catch (err) {
-            console.log(err)
+            
+            if(err){
+                toast.error('something went wrong please check')
+            }
         }
     }
 
