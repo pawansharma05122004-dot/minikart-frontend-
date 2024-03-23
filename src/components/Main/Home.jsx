@@ -5,8 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [data, setData] = useState({ data: [], isLoading: false });
-  const [modal ,setModal] = useState(false)
-  const [cartButton ,setCartButton] = useState('Add to Cart')
+  const [cartButton, setCartButton] = useState('Add to Cart')
   const navigate = useNavigate();
 
   const userObject = JSON.parse(localStorage.getItem('user'))||'';
@@ -41,8 +40,10 @@ const Home = () => {
         console.log(result.data.result)
       }
     } catch (err) {
-
-      console.log(err.response)
+          if(err.response === undefined)
+           {
+            navigate('/loginUser')
+           }
     }
   }
 
@@ -68,7 +69,6 @@ const Home = () => {
                         <button className='py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:bg-blue-700' onClick={() => handleAddToCart(item._id)}>
                           {cartButton}
                         </button>
-
                       </div>
                     </div>
                   </div>
@@ -78,11 +78,6 @@ const Home = () => {
           ) : (
             <p>Loading...</p>
           )}
-          <div>
-            <h1>Please SignUp or Login Accoutn</h1>
-            <button>Login</button>
-            <button>SignUp</button>
-          </div>
         </div>
       </div>
     </div>

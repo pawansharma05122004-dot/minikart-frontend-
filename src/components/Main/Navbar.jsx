@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-function Header() {
+function Navbar() {
   const userObject = JSON.parse(localStorage.getItem('user')) || '';
 
   const handleLogout = () => {
@@ -14,26 +14,20 @@ function Header() {
   };
 
   return (
-    <header className='shadow sticky z-50 top-0'>
-      <nav className='bg bg-white border-gray-200 px-4 lg:px-6 py-2.5'>
+    <header >
+      
         <div className='flex flex-wrap justify-between items-center mx-auto'>
-          <li>
-            <NavLink to='/' className={({ isActive }) =>
-              `${isActive ? "text-orange-600 font-bold" : "hover:text-green-600 font-bold"}`
-            }>Home</NavLink>
-          </li>
           <li>
             <NavLink to='/addToCart' className={({ isActive }) =>
               `${isActive ? "text-orange-600" : "hover:text-green-600 "} font-bold`
-            }>Check Cart</NavLink>
+            }>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+              </svg>
+
+              Check Cart</NavLink>
           </li>
-          {!userObject.user || !userObject ?
-            <li>
-              <NavLink to='/postProduct' className={({ isActive }) =>
-                `${isActive ? "text-orange-600" : "hover:text-green-600 "} font-bold`
-              }>Post Product</NavLink>
-            </li> : null
-          }
+
           <li>
             <NavLink to='/signup' className={({ isActive }) =>
               `${isActive ? "text-orange-600" : "hover:text-green-600 "} font-bold`
@@ -49,16 +43,18 @@ function Header() {
               <>
                 <NavLink to='/login' className={({ isActive }) =>
                   `${isActive ? "text-orange-600" : "hover:text-green-600 "} font-bold`
-                }>Login</NavLink>
+                }>
+
+                  Login</NavLink>
               </>
 
             )}
             <ToastContainer />
           </li>
         </div>
-      </nav>
+      
     </header>
   );
 }
 
-export default Header;
+export default Navbar;
