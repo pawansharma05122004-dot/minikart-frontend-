@@ -3,26 +3,27 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 import { ContextDataCreate } from '../Context/ContextState';
+import { Spinner } from "@material-tailwind/react";
 
 const Home = () => {
   const [data, setData] = useState({ data: [], isLoading: false });
   const [cartButton, setCartButton] = useState('Add to Cart')
   const navigate = useNavigate();
   const contextData = useContext(ContextDataCreate)
-  
-  const userObject = JSON.parse(localStorage.getItem('user'))||'';
+
+  const userObject = JSON.parse(localStorage.getItem('user')) || '';
 
   useEffect(() => {
-    if(contextData.searchData.serach){
+    if (contextData.searchData.serach) {
       // console.log(contextData.searchData)
-      setData({data:contextData.searchData.serach,isLoading:true})
+      setData({ data: contextData.searchData.serach, isLoading: true })
     }
 
   }, [contextData.searchData.serach]);
 
-  useEffect(()=>{
+  useEffect(() => {
     fetchData();
-  },[])
+  }, [])
 
   const fetchData = async () => {
     try {
@@ -35,24 +36,23 @@ const Home = () => {
 
   const handleAddToCart = async (productId) => {
     try {
-      const result = await axios.post(`${process.env.REACT_APP_API_URL}/cartItem/postCartItem`,{
-        userId: userObject.user._id||'',
-        productId:productId,
-        quantity:"1"
+      const result = await axios.post(`${process.env.REACT_APP_API_URL}/cartItem/postCartItem`, {
+        userId: userObject.user._id || '',
+        productId: productId,
+        quantity: "1"
       })
-      if(result.status === 201){
+      if (result.status === 201) {
         setCartButton('Check Cart')
       }
       if (result.data) {
         navigate("/addToCart")
-      }else{
+      } else {
         console.log(result.data.result)
       }
     } catch (err) {
-          if(err.response === undefined)
-           {
-            navigate('/loginUser')
-           }
+      if (err.response === undefined) {
+        navigate('/loginUser')
+      }
     }
   }
 
@@ -85,7 +85,9 @@ const Home = () => {
               )
             })
           ) : (
-            <p>Loading...</p>
+            <div className="flex justify-center items-center h-screen">
+              <Spinner className="h-16 w-16 text-gray-900/50" />
+            </div>
           )}
         </div>
       </div>
