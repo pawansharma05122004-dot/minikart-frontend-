@@ -11,7 +11,7 @@ export default function SearchBar (){
   </svg>
   </button>
   
-  <input type='text' placeholder='Search Minikart item here' className='w-96 h-8'/>
+  <input type='text' placeholder='Search Minikart item here' className='md:w-96 h-8'/>
 
 
 </div>
