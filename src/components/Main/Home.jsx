@@ -1,18 +1,28 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
+import { ContextDataCreate } from '../Context/ContextState';
 
 const Home = () => {
   const [data, setData] = useState({ data: [], isLoading: false });
   const [cartButton, setCartButton] = useState('Add to Cart')
   const navigate = useNavigate();
-
+  const contextData = useContext(ContextDataCreate)
+  
   const userObject = JSON.parse(localStorage.getItem('user'))||'';
 
   useEffect(() => {
+    if(contextData.searchData.serach){
+      // console.log(contextData.searchData)
+      setData({data:contextData.searchData.serach,isLoading:true})
+    }
+
+  }, [contextData.searchData.serach]);
+
+  useEffect(()=>{
     fetchData();
-  }, []);
+  },[])
 
   const fetchData = async () => {
     try {
@@ -30,7 +40,6 @@ const Home = () => {
         productId:productId,
         quantity:"1"
       })
-      console.log('post',result)
       if(result.status === 201){
         setCartButton('Check Cart')
       }
