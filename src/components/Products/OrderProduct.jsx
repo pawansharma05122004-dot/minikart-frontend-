@@ -3,7 +3,7 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { loadStripe } from "@stripe/stripe-js";
-
+import TotalPrice from '../TotalPrice/TotalPrice';
 function OrderProduct() {
     const [data, setData] = useState('')
     const [orderDetails, setOrderDetails] = useState([]);
@@ -74,9 +74,13 @@ function OrderProduct() {
     return (
         <div className=" bg-gray-100">
             <div className=' p-8 rounded-lg shadow-lg'>
-                <h1 className="text-2xl font-bold mb-4">Delivery  Item</h1>
-                <div className='bg-white shadow-md rounded-md border grid grid-cols-1 gap-4 rounded-md p-4'>
-                    <div>Get Addess Detailas and deliver Item
+
+                <div className='grid grid-cols-1 md:grid-cols-12 gap-8 justify-center'>
+
+
+                    <div className="bg-white shadow-md rounded-md md:col-span-8">
+                        <h1 className="text-2xl font-bold mb-4">Delivery  Item</h1>
+
                         {
                             orderDetails.map((details) => {
                                 return (
@@ -90,71 +94,77 @@ function OrderProduct() {
                                 )
                             })
                         }
+                        <button onClick={openModal} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Fill Address</button>
+                        {showModal && (
+                            <div className="fixed inset-0 flex justify-center items-center overflow-y-auto bg-gray-500 bg-opacity-75">
+                                <div className="bg-white rounded-lg shadow-lg p-8 w-1/3 h-auto">
+                                    <button onClick={closeModal} className="absolute top-0 right-0 mt-4 mr-4">&times;</button>
+                                    <h2 className="text-xl font-bold mb-4">Add Address</h2>
+                                    <form onSubmit={(e) => { postCustomerDetials(e) }} className="space-y-4">
+                                        <div>
+                                            <label className="block text-gray-700">Name</label>
+                                            <input type='text' placeholder='Name' name='name' value={data.name || ''} onChange={(e) => handleCustomerDetails(e)} className="w-full border border-gray-300 rounded-md p-2" />
+                                        </div>
+                                        <div>
+                                            <label className="block text-gray-700" >Address</label>
+                                            <input type='text' placeholder='address' name='address' value={data.address || ''} onChange={(e) => handleCustomerDetails(e)} className="w-full border border-gray-300 rounded-md p-2" />
+                                        </div>
+                                        <div>
+                                            <label className="block text-gray-700">Phone Number</label>
+                                            <input type='text' placeholder='Phone Number' name='phone_number' value={data.phone_number || ''} onChange={(e) => handleCustomerDetails(e)} className="w-full border border-gray-300 rounded-md p-2" />
+                                        </div>
+                                        <div>
+                                            <label className="block text-gray-700">Pin Code</label>
+                                            <input type='text' placeholder='name' name='pinCode' value={data.pinCode || ''} onChange={(e) => handleCustomerDetails(e)} className="w-full border border-gray-300 rounded-md p-2" />
+                                        </div>
+
+                                        <div>
+                                            <label className="block text-gray-700">Locality</label>
+                                            <input type='text' placeholder='name' name='locality' value={data.locality || ''} onChange={(e) => handleCustomerDetails(e)} className="w-full border border-gray-300 rounded-md p-2" />
+                                        </div>
+                                        <div>
+                                            <label className="block text-gray-700">Address area & Street</label>
+                                            <input type='text' placeholder='Address area & Street' name='addressArea' value={data.addressArea || ''} onChange={(e) => handleCustomerDetails(e)} className="w-full border border-gray-300 rounded-md p-2" />
+                                        </div>
+                                        <div>
+                                            <label className="block text-gray-700">City/Distrcit/Town</label>
+                                            <input type='text' placeholder='City/Distrcit/Town' name='landmark' value={data.district || ''} onChange={(e) => handleCustomerDetails(e)} className="w-full border border-gray-300 rounded-md p-2" />
+                                        </div>
+                                        <div>
+                                            <label className="block text-gray-700"> State</label>
+                                            <input type='text' placeholder='State' name='state' value={data.state || ''} onChange={(e) => handleCustomerDetails(e)} className="w-full border border-gray-300 rounded-md p-2" />
+                                        </div>
+                                        <div>
+                                            <label className="block text-gray-700"> Alternat Phone</label>
+                                            <input type='text' placeholder='Alternat Phone' name='alternat_phone' value={data.alternatePhone || ''} onChange={(e) => handleCustomerDetails(e)} className="w-full border border-gray-300 rounded-md p-2" />
+                                        </div>
+                                        <div>
+                                            <label className="block text-gray-700">Address Type</label>
+                                            <input type='text' placeholder='name'
+                                                name='address_type' value={data.addressType || ''} onChange={(e) => handleCustomerDetails(e)} className="w-full border border-gray-300 rounded-md p-2" />
+                                        </div>
+
+                                        <div>
+                                            <input type='submit' value="Submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" />
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        )}
+
+                        <button className='bg-green-500' onClick={makePayment}>CheckOut</button>
 
                     </div>
-                    <button onClick={openModal} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Fill Address</button>
-                    {showModal && (
-                        <div className="fixed inset-0 flex justify-center items-center overflow-y-auto bg-gray-500 bg-opacity-75">
-                            <div className="bg-white rounded-lg shadow-lg p-8 w-1/3 h-auto">
-                                <button onClick={closeModal} className="absolute top-0 right-0 mt-4 mr-4">&times;</button>
-                                <h2 className="text-xl font-bold mb-4">Add Address</h2>
-                                <form onSubmit={(e) => { postCustomerDetials(e) }} className="space-y-4">
-                                    <div>
-                                        <label className="block text-gray-700">Name</label>
-                                        <input type='text' placeholder='Name' name='name' value={data.name || ''} onChange={(e) => handleCustomerDetails(e)} className="w-full border border-gray-300 rounded-md p-2" />
-                                    </div>
-                                    <div>
-                                        <label className="block text-gray-700" >Address</label>
-                                        <input type='text' placeholder='address' name='address' value={data.address || ''} onChange={(e) => handleCustomerDetails(e)} className="w-full border border-gray-300 rounded-md p-2" />
-                                    </div>
-                                    <div>
-                                        <label className="block text-gray-700">Phone Number</label>
-                                        <input type='text' placeholder='Phone Number' name='phone_number' value={data.phone_number || ''} onChange={(e) => handleCustomerDetails(e)} className="w-full border border-gray-300 rounded-md p-2" />
-                                    </div>
-                                    <div>
-                                        <label className="block text-gray-700">Pin Code</label>
-                                        <input type='text' placeholder='name' name='pinCode' value={data.pinCode || ''} onChange={(e) => handleCustomerDetails(e)} className="w-full border border-gray-300 rounded-md p-2" />
-                                    </div>
+                    <div className="bg-white shadow-md rounded-md md:col-span-4 h-96">
 
-                                    <div>
-                                        <label className="block text-gray-700">Locality</label>
-                                        <input type='text' placeholder='name' name='locality' value={data.locality || ''} onChange={(e) => handleCustomerDetails(e)} className="w-full border border-gray-300 rounded-md p-2" />
-                                    </div>
-                                    <div>
-                                        <label className="block text-gray-700">Address area & Street</label>
-                                        <input type='text' placeholder='Address area & Street' name='addressArea' value={data.addressArea || ''} onChange={(e) => handleCustomerDetails(e)} className="w-full border border-gray-300 rounded-md p-2" />
-                                    </div>
-                                    <div>
-                                        <label className="block text-gray-700">City/Distrcit/Town</label>
-                                        <input type='text' placeholder='City/Distrcit/Town' name='landmark' value={data.district || ''} onChange={(e) => handleCustomerDetails(e)} className="w-full border border-gray-300 rounded-md p-2" />
-                                    </div>
-                                    <div>
-                                        <label className="block text-gray-700"> State</label>
-                                        <input type='text' placeholder='State' name='state' value={data.state || ''} onChange={(e) => handleCustomerDetails(e)} className="w-full border border-gray-300 rounded-md p-2" />
-                                    </div>
-                                    <div>
-                                        <label className="block text-gray-700"> Alternat Phone</label>
-                                        <input type='text' placeholder='Alternat Phone' name='alternat_phone' value={data.alternatePhone || ''} onChange={(e) => handleCustomerDetails(e)} className="w-full border border-gray-300 rounded-md p-2" />
-                                    </div>
-                                    <div>
-                                        <label className="block text-gray-700">Address Type</label>
-                                        <input type='text' placeholder='name'
-                                            name='address_type' value={data.addressType || ''} onChange={(e) => handleCustomerDetails(e)} className="w-full border border-gray-300 rounded-md p-2" />
-                                    </div>
+                        <TotalPrice />
+                    </div>
 
-                                    <div>
-                                        <input type='submit' value="Submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" />
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    )}
-
-                    <button className='bg-green-500' onClick={makePayment}>CheckOut</button>
                 </div>
                 <ToastContainer />
             </div>
         </div>
+
     );
 }
 

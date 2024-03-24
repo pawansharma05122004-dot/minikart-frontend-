@@ -23,7 +23,7 @@ function ProductById() {
     }, [productId]);
 
     return (
-        <div className="container mx-auto mt-8 px-4">
+        <div className=" bg-gray-100 mx-auto mt-8 px-4">
             {product ? (
                 <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
                     <div className=" col-span-2  bg-white shadow-md rounded-md ">

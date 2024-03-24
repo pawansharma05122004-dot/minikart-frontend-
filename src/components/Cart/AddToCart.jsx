@@ -4,6 +4,7 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import CartHelper from '../Helper/CartHelper';
+import TotalPrice from '../TotalPrice/TotalPrice';
 
 function AddToCart() {
     const { productId } = useParams();
@@ -41,7 +42,7 @@ function AddToCart() {
                 userObject !== null ? <div className=' p-8 rounded-lg shadow-lg'>
                     <div className='grid grid-cols-1 md:grid-cols-12 gap-8 justify-center'>
                         <div className="bg-white shadow-md rounded-md md:col-span-8">
-                            <h1>Shopping Cart</h1>
+                            <h1 className='text-2xl font-bold mb-4'>Shopping Cart</h1>
                             {item ? item.map((item, index) => {
                                 return (
                                     <div className=" flex bg-white shadow-md rounded-md p-6 mt-6">
@@ -70,20 +71,7 @@ function AddToCart() {
                         </div>
                         <div className="bg-white shadow-md rounded-md md:col-span-4 h-96">
 
-                            <h1 className='text-base font-bold '>PRICE DETAILS</h1>
-
-                            <hr className="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
-                            <div>
-                                <p className='font-bold'> Price</p>
-                                <p className='font-bold'> Discount</p>
-                                <p className='font-bold'> Delivery Charges</p>
-                                <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
-                                <h1 className='font-bold'>Total Amount </h1>
-                            </div>
-                            <Link to='/OrderProduct/'>
-                                <button className='bg-blue-600 text-white rounded-md hover:bg-blue-700 w-48 h-16 mt-10 justify '>Order Item</button>
-                            </Link>
-                            <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
+                            <TotalPrice/>
                         </div>
                     </div>
                     <ToastContainer />
