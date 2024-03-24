@@ -16,6 +16,13 @@ function AddToCart() {
             const getBuyDetails = async (body) => {
                 try {
                     const result = await axios.post(`${process.env.REACT_APP_API_URL}/cartItem/getaddToCart`, body);
+                    if (result.data.result.length === 0) {
+                        return (
+                            <>
+                                <h1>Please Add Item in Cart ,Cart is empty</h1>
+                            </>
+                        )
+                    }
                     setItem(result.data.result[0].products);
                 } catch (error) {
                     toast.error(error.response.data.err)
@@ -33,7 +40,7 @@ function AddToCart() {
             {
                 userObject !== null ? <div className=' p-8 rounded-lg shadow-lg'>
                     <div className='grid grid-cols-1 md:grid-cols-12 gap-8 justify-center'>
-                        <div className="bg-white shadow-md rounded-md md:col-span-7 ">
+                        <div className="bg-white shadow-md rounded-md md:col-span-8">
                             <h1>Shopping Cart</h1>
                             {item ? item.map((item, index) => {
                                 return (
@@ -61,10 +68,22 @@ function AddToCart() {
                                 </div>
                             )}
                         </div>
-                        <div className="bg-white shadow-md rounded-md md:col-span-3 h-96">
-                            <Link to='/OrderProduct'>
-                                <button>Order Item</button>
+                        <div className="bg-white shadow-md rounded-md md:col-span-4 h-96">
+
+                            <h1 className='text-base font-bold '>PRICE DETAILS</h1>
+
+                            <hr className="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
+                            <div>
+                                <p className='font-bold'> Price</p>
+                                <p className='font-bold'> Discount</p>
+                                <p className='font-bold'> Delivery Charges</p>
+                                <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
+                                <h1 className='font-bold'>Total Amount </h1>
+                            </div>
+                            <Link to='/OrderProduct/'>
+                                <button className='bg-blue-600 text-white rounded-md hover:bg-blue-700 w-48 h-16 mt-10 justify '>Order Item</button>
                             </Link>
+                            <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
                         </div>
                     </div>
                     <ToastContainer />

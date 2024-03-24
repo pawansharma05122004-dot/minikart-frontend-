@@ -15,7 +15,6 @@ const Home = () => {
 
   useEffect(() => {
     if (contextData.searchData.serach) {
-      // console.log(contextData.searchData)
       setData({ data: contextData.searchData.serach, isLoading: true })
     }
 
