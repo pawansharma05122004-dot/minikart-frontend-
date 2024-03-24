@@ -25,23 +25,19 @@ function ProductById() {
     return (
         <div className="container mx-auto mt-8 px-4">
             {product ? (
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div className="bg-white shadow-md rounded-md w-full">
+                <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
+                    <div className=" col-span-2  bg-white shadow-md rounded-md ">
                         <img src={product.data.product_img} alt='product' className='w-full h-auto object-cover rounded-t-md' />
                     </div>
-
-                    <div className="bg-white shadow-md rounded-md p-6 w-1/2">
-                        <img src={product.data.product_img} alt='product' className='w-28 h-auto object-cover rounded-t-md' />
-                    </div>
-
-                    <div className="p-6 flex flex-col justify-center  bg-white shadow-md rounded-md w-full">
+                    <div className=" col-span-3 row-span-2  p-6 flex flex-col justify-center bg-white shadow-md rounded-md ">
                         <h2 className="text-2xl font-semibold mb-2">{product.data.product_name}</h2>
-                        <p className="text-lg text-gray-600  font-semibold mb-4">Price: ${product.data.price}</p>
+                        <p className="text-lg text-gray-600 font-semibold mb-4">Price: ${product.data.price}</p>
                         <p className="text-lg text-gray-600 font-semibold mb-4">Discount: {product.discount}</p>
                         <p className="text-lg text-gray-600 font-semibold mb-4">Brand: {product.data.brand}</p>
-                        <p className="text-lg text-gray-600 font-semibold font-semibold mb-4">Warranty: 2 years</p>
+                        <p className="text-lg text-gray-600 font-semibold mb-4">Warranty: 2 years</p>
                         <p className="text-lg text-gray-600 font-semibold mb-4">Description: {product.data.product_description}</p>
-                        <div className='flex flex-row justify-items-center items-center'>
+                       
+                        <div className='flex flex-row justify-evenly'>
                             <Link to={`/OrderProduct`}>
                                 <button className='block w-full py-2 px-4 bg-green-600 text-white rounded-md hover:bg-orange-700 focus:outline-none focus:bg-green-700'>
                                     Buy Now
@@ -55,6 +51,11 @@ function ProductById() {
                         </div>
                     </div>
 
+                    <div className="col-span-1 flex flex-row justify-evenly  shadow-md rounded-md space-x-4">
+                        <img src={product.data.product_img} alt='product' className='object-cover rounded-md box-border h-16 w-32 p-4 border-4 border-black' />
+                        <img src={product.data.product_img} alt='product' className='object-cover rounded-md box-border h-16 w-32 p-4 border-4 border-black' />
+                        <img src={product.data.product_img} alt='product' className='object-cover rounded-md box-border h-16 w-32 p-4 border-4 border-black' />
+                    </div>
                 </div>
 
             ) : (
@@ -69,15 +70,15 @@ function ProductById() {
                 </div>
             )}
 
-            <div className="bg-white shadow-md rounded-md p-6">
+            <div className="bg-white shadow-md rounded-md p-6 mt-6">
                 <h2 className="text-2xl font-semibold mb-4">Customer Reviews</h2>
                 <p className="text-lg text-gray-600">No reviews yet</p>
             </div>
 
-            <div className="bg-white shadow-md rounded-md p-10">
+            <div className="bg-white shadow-md rounded-md p-6 mt-6">
                 <h2 className="text-2xl font-semibold mb-4">Similliar Product</h2>
                 {
-                    product&&product.relatedData.map((product) => {
+                    product && product.relatedData.map((product) => {
                         return (
                             <div key={product._id} className='flex flex-col bg-white shadow-md rounded-lg overflow-hidden'>
                                 <img src={product.product_img !== null ? product.product_img : '/noimage.png'} alt='product' className='h-48 w-48 object-cover' />
