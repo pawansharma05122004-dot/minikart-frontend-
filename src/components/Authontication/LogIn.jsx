@@ -29,6 +29,7 @@ const Login = () => {
             if (postUser.data) {
                 toast("Login Successfully");
                    let token =postUser.data.token
+                   console.log(token)
                    const userObject = postUser.data.user;
                    localStorage.setItem('token',JSON.stringify(token));
                    localStorage.setItem('user', JSON.stringify(userObject));

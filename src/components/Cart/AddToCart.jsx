@@ -78,7 +78,7 @@ function AddToCart() {
                 </div> :
                     <CartHelper />
             }
-        </div >
+        </div>
     );
 }
 

@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 import { ContextDataCreate } from '../Context/ContextState';
 
-
 const Home = () => {
   const [data, setData] = useState({ data: [], isLoading: false });
   const [cartButton, setCartButton] = useState('Add to Cart')

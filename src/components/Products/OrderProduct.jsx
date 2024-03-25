@@ -4,15 +4,24 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { loadStripe } from "@stripe/stripe-js";
 import TotalPrice from '../TotalPrice/TotalPrice';
+import { getCustomerDetails } from '../Api/Apis';
+
 function OrderProduct() {
     const [data, setData] = useState('')
     const [orderDetails, setOrderDetails] = useState([]);
     const [sessionCheckout, setSessionCheckOut] = useState({})
     const [showModal, setShowModal] = useState(false);
     const userObject = JSON.parse(localStorage.getItem('user')) || '';
+    const [addressDetails, setAddressDetail] = useState({ data: [], isLoading: false })
+
 
     useEffect(() => {
         getOrderDetails()
+
+    }, [])
+
+    useEffect(() => {
+        getCustomer()
     }, [])
 
     const handleCustomerDetails = (e) => {
@@ -26,19 +35,31 @@ function OrderProduct() {
     const postCustomerDetials = async (e) => {
         e.preventDefault()
         try {
-            await axios.post(`${process.env.REACT_APP_API_URL}/customer/createOrder`, data)
+            await axios.post(`${process.env.REACT_APP_API_URL}/customer/createCustomerDetail`, { data, userID: userObject.user._id })
         } catch (error) {
             console.log(error)
+        }
+    }
+
+    const getCustomer = async () => {
+        try {
+            const result = await getCustomerDetails()
+            if (result.data) {
+                setAddressDetail({ data: result.data.result, isLoading: true })
+            } else {
+                setAddressDetail({ isLoading: false })
+            }
+        } catch (err) {
+            console.log(err)
         }
     }
 
     const getOrderDetails = async () => {
         try {
             const result = await axios.post(`${process.env.REACT_APP_API_URL}/order/getOrderDetails`, { userId: userObject.user._id || '', })
-            console.log(result)
             setOrderDetails(result.data.result)
         } catch (error) {
-
+            console.log(error)
         }
     }
 
@@ -76,31 +97,85 @@ function OrderProduct() {
             <div className=' p-8 rounded-lg shadow-lg'>
 
                 <div className='grid grid-cols-1 md:grid-cols-12 gap-8 justify-center'>
-
-
                     <div className="bg-white shadow-md rounded-md md:col-span-8">
                         <h1 className="text-2xl font-bold mb-4">Delivery  Item</h1>
 
                         {
-                            orderDetails.map((details) => {
+                            addressDetails.isLoading && addressDetails.data.map((details) => {
+                                const { address, landmark, locality, pinCode, name, address_type, phone_number } = details
                                 return (
-                                    <>
-                                        <ul>
-                                            <li> Total Bill Amount :{details.totalAmount}</li>{ }
-                                            <li>{details.customerDetails.name}</li>
-                                            <li>{details.customerDetails.phone_number}</li>
-                                        </ul>
-                                    </>
+                                    <div className="mt-4  flex bg-white shadow-md rounded-md md:col-span-8">
+                                        <div class="relative overflow-x-auto">
+                                            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                                    <tr>
+                                                        <th scope="col" class="px-6 py-3">
+                                                            Name
+                                                        </th>
+                                                        <th scope="col" class="px-6 py-3">
+                                                            Phone Number
+                                                        </th>
+                                                        <th scope="col" class="px-6 py-3">
+                                                            Address
+                                                        </th>
+                                                        <th scope="col" class="px-6 py-3">
+                                                            Locality
+                                                        </th>
+                                                        <th scope="col" class="px-6 py-3">
+                                                            Pin Code
+                                                        </th>
+                                                        <th scope="col" class="px-6 py-3">
+                                                            Address Type
+                                                        </th>
+                                                        <th scope="col" class="px-6 py-3">
+                                                            Procced To Pay
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                            {name}
+                                                        </th>
+                                                        <td class="px-6 py-4">
+                                                            {phone_number}
+                                                        </td>
+                                                        <td class="px-6 py-4">
+                                                            {landmark}
+                                                        </td>
+                                                        <td class="px-6 py-4">
+                                                            {locality}
+                                                        </td>
+                                                        <td class="px-6 py-4">
+                                                            {pinCode}
+                                                        </td>
+                                                        <td class="px-6 py-4">
+                                                            {address_type}
+                                                        </td>
+                                                        <td><button className='bg-orange-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded' onClick={makePayment}>CheckOut</button></td>
+                                                        
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 )
                             })
                         }
-                        <button onClick={openModal} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Fill Address</button>
+
+                        <button onClick={openModal} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add Address</button>
                         {showModal && (
-                            <div className="fixed inset-0 flex justify-center items-center overflow-y-auto bg-gray-500 bg-opacity-75">
-                                <div className="bg-white rounded-lg shadow-lg p-8 w-1/3 h-auto">
-                                    <button onClick={closeModal} className="absolute top-0 right-0 mt-4 mr-4">&times;</button>
-                                    <h2 className="text-xl font-bold mb-4">Add Address</h2>
-                                    <form onSubmit={(e) => { postCustomerDetials(e) }} className="space-y-4">
+                            <div className="fixed inset-0 z-50 flex justify-center items-center overflow-y-auto bg-gray-500 bg-opacity-75">
+                                <div className="bg-white rounded-lg shadow-lg p-8 w-1/3 h-auto py-8 box-content  h-98 w-98 p-4 border-4 border-indigo-500/100 ">
+                                    <div className='flex justify-between items-center'>
+                                        <div>
+                                            <h2 className="text-xl font-bold mb-4">Add Address</h2>
+                                        </div>
+                                        <div>
+                                            <button onClick={closeModal} className="bg-red-500 p-2">&times;</button>
+                                        </div>
+                                    </div>
+                                    <form onSubmit={(e) => { postCustomerDetials(e) }} className="space-y-4  grid items-end gap-6 mb-6 md:grid-cols-2">
                                         <div>
                                             <label className="block text-gray-700">Name</label>
                                             <input type='text' placeholder='Name' name='name' value={data.name || ''} onChange={(e) => handleCustomerDetails(e)} className="w-full border border-gray-300 rounded-md p-2" />
@@ -152,14 +227,12 @@ function OrderProduct() {
                             </div>
                         )}
 
-                        <button className='bg-green-500' onClick={makePayment}>CheckOut</button>
+                        
 
                     </div>
                     <div className="bg-white shadow-md rounded-md md:col-span-4 h-96">
-
                         <TotalPrice />
                     </div>
-
                 </div>
                 <ToastContainer />
             </div>
