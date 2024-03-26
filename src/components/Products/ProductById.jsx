@@ -29,14 +29,46 @@ function ProductById() {
                     <div className=" col-span-2  bg-white shadow-md rounded-md ">
                         <img src={product.data.product_img} alt='product' className='w-full h-auto object-cover rounded-t-md' />
                     </div>
-                    <div className=" col-span-3 row-span-2  p-6 flex flex-col justify-center bg-white shadow-md rounded-md ">
-                        <h2 className="text-2xl font-semibold mb-2">{product.data.product_name}</h2>
-                        <p className="text-lg text-gray-600 font-semibold mb-4">Price: ${product.data.price}</p>
-                        <p className="text-lg text-gray-600 font-semibold mb-4">Discount: {product.discount}</p>
-                        <p className="text-lg text-gray-600 font-semibold mb-4">Brand: {product.data.brand}</p>
-                        <p className="text-lg text-gray-600 font-semibold mb-4">Warranty: 2 years</p>
-                        <p className="text-lg text-gray-600 font-semibold mb-4">Description: {product.data.product_description}</p>
+                    <div className=" col-span-3 row-span-2  p-4 flex flex-col justify-center bg-white shadow-md rounded-md ">
+                        <h2 className="text-2xl font-semibold mb-2">Product Detail</h2>
+                        <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
+                        <div className='p-4'>
+                            <h2 className="text-2xl font-semibold mb-2">Sony WH-1000XM4 Wireless Noise-Canceling Headphones</h2>
+                            4.8
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
+                                <path fillRule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401Z" clipRule="evenodd" />
+                            </svg>
+                            <p className="text-lg text-gray-600 font-semibold mb-2">
+                                755 Ratings & 150 Reviews</p>
+                            <p className="text-lg text-gray-600 font-semibold mb-2">Special Price: $299.99 (20% off)</p>
+                            <p className="text-lg text-gray-600 font-semibold mb-2">Available offers:</p>
+                            <ul className="list-disc pl-6 mb-2">
+                                <li>Special Price: Get extra 10% off (price inclusive of cashback/coupon)</li>
+                                <li>Bank Offer: Get $50 instant discount on HDFC Bank Credit Card EMI transactions</li>
+                                <li>EMI starting from $27/month</li>
+                            </ul>
+                            <p className="text-lg text-gray-600 font-semibold mb-2">Features:</p>
+                            <ul className="list-disc pl-6 mb-2">
+                                <li>Wireless Bluetooth technology for seamless connectivity</li>
+                                <li>Industry-leading noise cancellation for immersive sound</li>
+                                <li>30-hour battery life for long listening sessions</li>
+                                <li>Touch sensor controls for easy operation</li>
+                            </ul>
+                            <p className="text-lg text-gray-600 font-semibold mb-2">Specifications:</p>
+                            <ul className="list-disc pl-6">
+                                <li>Brand: Sony</li>
+                                <li>Model: WH-1000XM4</li>
+                                <li>Type: Over-ear</li>
+                                <li>Driver Unit: 40mm</li>
+                                <li>Frequency Response: 4Hz - 40kHz</li>
+                                <li>Impedance: 47 ohms</li>
+                                <li>Sensitivity: 105dB/mW</li>
+                                <li>Weight: 254g</li>
+                            </ul>
+                        </div>
 
+
+                        <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
                         <div className='flex flex-row justify-evenly'>
                             <Link to={`/OrderProduct`}>
                                 <button className='block w-full py-2 px-4 bg-green-600 text-white rounded-md hover:bg-orange-700 focus:outline-none focus:bg-green-700'>
@@ -76,21 +108,21 @@ function ProductById() {
             </div>
 
             <div className="bg-white shadow-md rounded-md p-6 mt-6">
-    <h2 className="text-2xl font-semibold mb-4">Similar Products</h2>
-    <div className="flex flex-wrap justify-start">
-        {product &&
-            product.relatedData.map((product) => (
-                <div key={product._id} className="flex flex-col bg-white shadow-md rounded-lg overflow-hidden mr-4 mb-4" style={{ width: '300px' }}>
-                    <img src={product.product_img !== null ? product.product_img : '/noimage.png'} alt='product' className='h-48 w-full object-cover' />
-                    <div className='p-4 '>
-                        <h3 className='text-xl font-semibold'>{product.brand}</h3>
-                        <p className='text-lg text-gray-700'>Price: ${product.price}</p>
-                    </div>
+                <h2 className="text-2xl font-semibold mb-4">Similar Products</h2>
+                <div className="flex flex-wrap justify-start">
+                    {product &&
+                        product.relatedData.map((product) => (
+                            <div key={product._id} className="flex flex-col bg-white shadow-md rounded-lg overflow-hidden mr-4 mb-4" style={{ width: '300px' }}>
+                                <img src={product.product_img !== null ? product.product_img : '/noimage.png'} alt='product' className='h-48 w-full object-cover' />
+                                <div className='p-4 '>
+                                    <h3 className='text-xl font-semibold'>{product.brand}</h3>
+                                    <p className='text-lg text-gray-700'>Price: ${product.price}</p>
+                                </div>
+                            </div>
+                        ))
+                    }
                 </div>
-            ))
-        }
-    </div>
-</div>
+            </div>
 
         </div>
     );
