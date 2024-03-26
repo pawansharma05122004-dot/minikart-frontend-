@@ -36,7 +36,7 @@ function ProductById() {
                         <p className="text-lg text-gray-600 font-semibold mb-4">Brand: {product.data.brand}</p>
                         <p className="text-lg text-gray-600 font-semibold mb-4">Warranty: 2 years</p>
                         <p className="text-lg text-gray-600 font-semibold mb-4">Description: {product.data.product_description}</p>
-                       
+
                         <div className='flex flex-row justify-evenly'>
                             <Link to={`/OrderProduct`}>
                                 <button className='block w-full py-2 px-4 bg-green-600 text-white rounded-md hover:bg-orange-700 focus:outline-none focus:bg-green-700'>
@@ -76,21 +76,22 @@ function ProductById() {
             </div>
 
             <div className="bg-white shadow-md rounded-md p-6 mt-6">
-                <h2 className="text-2xl font-semibold mb-4">Similliar Product</h2>
-                {
-                    product && product.relatedData.map((product) => {
-                        return (
-                            <div key={product._id} className='flex flex-col bg-white shadow-md rounded-lg overflow-hidden'>
-                                <img src={product.product_img !== null ? product.product_img : '/noimage.png'} alt='product' className='h-48 w-48 object-cover' />
-                                <div className='p-4'>
-                                    <h3 className='text-xl font-semibold'>{product.product_name}</h3>
-                                    <p className='text-lg text-gray-700'>Price: ${product.price}</p>
-                                </div>
-                            </div>
-                        )
-                    })
-                }
-            </div>
+    <h2 className="text-2xl font-semibold mb-4">Similar Products</h2>
+    <div className="flex flex-wrap justify-start">
+        {product &&
+            product.relatedData.map((product) => (
+                <div key={product._id} className="flex flex-col bg-white shadow-md rounded-lg overflow-hidden mr-4 mb-4" style={{ width: '300px' }}>
+                    <img src={product.product_img !== null ? product.product_img : '/noimage.png'} alt='product' className='h-48 w-full object-cover' />
+                    <div className='p-4 '>
+                        <h3 className='text-xl font-semibold'>{product.brand}</h3>
+                        <p className='text-lg text-gray-700'>Price: ${product.price}</p>
+                    </div>
+                </div>
+            ))
+        }
+    </div>
+</div>
+
         </div>
     );
 }

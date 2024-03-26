@@ -79,7 +79,6 @@ function OrderProduct() {
     return (
         <div className=" bg-gray-100">
             <div className=' p-8 rounded-lg shadow-lg'>
-
                 <div className='grid grid-cols-1 md:grid-cols-12 gap-8 justify-center'>
                     <div className="bg-white shadow-md rounded-md md:col-span-8">
                         <h1 className="text-2xl font-bold mb-4">Delivery  Item</h1>

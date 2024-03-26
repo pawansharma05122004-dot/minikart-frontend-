@@ -1,10 +1,11 @@
 import { useState } from "react";
-import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Cookies from 'js-cookie'; 
 
 
 import { useNavigate } from "react-router-dom"
+import { login } from "../Api/Apis";
 const style = {
     inputBar: "bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500",
     label: "block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -13,7 +14,7 @@ const style = {
 const Login = () => {
 
     const [user, setUser] = useState('')
-    const [error,setError] = useState(null)
+    const [error, setError] = useState(null)
     const navigate = useNavigate()
     const handleUserValue = (e) => {
         const { name, value } = e.target;
@@ -25,18 +26,14 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            const postUser = await axios.post(`${process.env.REACT_APP_API_URL}/users/login`, user)
-            if (postUser.data) {
+            const result = await login(user)
+            
+            if (result.data) {
+                Cookies.set('token', result.data.token, { expires: 1 })
+                
                 toast("Login Successfully");
-                   let token =postUser.data.token
-                   console.log(token)
-                   const userObject = postUser.data.user;
-                   localStorage.setItem('token',JSON.stringify(token));
-                   localStorage.setItem('user', JSON.stringify(userObject));
-                   navigate('/')
-             }
-
-            return postUser
+                navigate('/')
+            }
         } catch (err) {
             toast.error(err.response.data.err)
         }
@@ -54,7 +51,7 @@ const Login = () => {
                             <form class="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
                                 <div>
                                     <label for="email" className={style.label}>Your email</label>
-                                    <input type="email" name="email" id="email" className={style.inputBar} placeholder="name@company.com" value={user.email|| ''} required="" onChange={(e) => handleUserValue(e)} />
+                                    <input type="email" name="email" id="email" className={style.inputBar} placeholder="name@company.com" value={user.email || ''} required="" onChange={(e) => handleUserValue(e)} />
                                 </div>
                                 <div>
                                     <label for="password" className={style.label}>Password</label>

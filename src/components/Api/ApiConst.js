@@ -1,14 +1,16 @@
 import axios from 'axios'
-const token = JSON.parse(localStorage.getItem('token')) || '';
+import Cookies from 'js-cookie'; 
 
+const cookiesToken = Cookies.get('token') || ''
+console.log(cookiesToken)
 const api = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
 });
 
 api.interceptors.request.use(config => {
-    const accessToken = token
-    if (accessToken) {
-        config.headers.Authorization = `Bearer ${accessToken}`
+    
+    if (cookiesToken) {
+        config.headers.Authorization = `Bearer ${cookiesToken}`
     }
     return config
 },
