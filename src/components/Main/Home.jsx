@@ -6,17 +6,12 @@ import { ContextDataCreate } from '../Context/ContextState';
 
 const Home = () => {
   const [data, setData] = useState({ data: [], isLoading: false });
-  const [cartButton, setCartButton] = useState('Add to Cart')
-  const navigate = useNavigate();
   const contextData = useContext(ContextDataCreate)
-
-  const userObject = JSON.parse(localStorage.getItem('user')) || '';
 
   useEffect(() => {
     if (contextData.searchData.serach) {
       setData({ data: contextData.searchData.serach, isLoading: true })
     }
-
   }, [contextData.searchData.serach]);
 
   useEffect(() => {
@@ -32,53 +27,26 @@ const Home = () => {
     }
   };
 
-  const handleAddToCart = async (productId) => {
-    try {
-      const result = await axios.post(`${process.env.REACT_APP_API_URL}/cartItem/postCartItem`, {
-        userId: userObject.user._id || '',
-        productId: productId,
-        quantity: "1"
-      })
-      if (result.status === 201) {
-        setCartButton('Check Cart')
-      }
-      if (result.data) {
-        navigate("/addToCart")
-      } else {
-        console.log(result.data.result)
-      }
-    } catch (err) {
-      if (err.response === undefined) {
-        navigate('/loginUser')
-      }
-    }
-  }
-
   return (
     <div className=' bg-gray-100 flex flex-col min-h-screen'>
       <div className='container mx-auto pt-5 flex-grow'>
-        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
+        <div className='grid grid-cols-2 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4'>
           {data.isLoading ? (
             data.data.map((item) => {
               return (
                 <>
-                  <div key={item._id} className='flex flex-col bg-white shadow-md rounded-lg overflow-hidden'>
-                    <img src={item.product_img !== null ? item.product_img : '/noimage.png'} alt='product' className='h-64 w-full object-cover' />
-                    <div className='p-4'>
-                      <h3 className='text-xl font-semibold'>{item.product_name}</h3>
-                      <p className='text-lg text-gray-700'>Price: ${item.price}</p>
-                      <div className='flex justify-between mt-4'>
-                        <Link to={`/productbyid/${item._id}`}>
-                          <button className='py-2 px-4 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:bg-green-700'>
-                            View Details
-                          </button>
-                        </Link>
-                        <button className='py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:bg-blue-700' onClick={() => handleAddToCart(item._id)}>
-                          {cartButton}
-                        </button>
+                  <Link to={`/productbyid/${item._id}`}>
+                    <div key={item._id} className='flex flex-col justify-center items-center  bg-white  shadow-md rounded-lg overflow-hidden'>
+                      <div className='box-border h-52 w-52 p-4 border-4 border-gray-200'>
+                        <img src={item.product_img !== null ? item.product_img : '/noimage.png'} alt='product' className='h-32 w-full object-cover' />
+                      </div>
+                      <div className='p-4 '>
+                        <p className='text-xl font-semibold'>{item.product_name}</p>
+                        <p className='text-xl font-semibold'>{item.price}</p>
+                        <p className='text-xl font-semibold'>{item.discount}</p>
                       </div>
                     </div>
-                  </div>
+                  </Link >
                 </>
               )
             })
@@ -93,7 +61,7 @@ const Home = () => {
           )}
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 

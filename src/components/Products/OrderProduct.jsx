@@ -4,21 +4,13 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { loadStripe } from "@stripe/stripe-js";
 import TotalPrice from '../TotalPrice/TotalPrice';
-import { getCustomerDetails } from '../Api/Apis';
+import { getCustomerDetails, postCustomerDetails } from '../Api/Apis';
 
 function OrderProduct() {
     const [data, setData] = useState('')
-    const [orderDetails, setOrderDetails] = useState([]);
     const [sessionCheckout, setSessionCheckOut] = useState({})
     const [showModal, setShowModal] = useState(false);
-    const userObject = JSON.parse(localStorage.getItem('user')) || '';
     const [addressDetails, setAddressDetail] = useState({ data: [], isLoading: false })
-
-
-    useEffect(() => {
-        getOrderDetails()
-
-    }, [])
 
     useEffect(() => {
         getCustomer()
@@ -35,7 +27,7 @@ function OrderProduct() {
     const postCustomerDetials = async (e) => {
         e.preventDefault()
         try {
-            await axios.post(`${process.env.REACT_APP_API_URL}/customer/createCustomerDetail`, { data, userID: userObject.user._id })
+            await postCustomerDetails(data)
         } catch (error) {
             console.log(error)
         }
@@ -51,15 +43,6 @@ function OrderProduct() {
             }
         } catch (err) {
             console.log(err)
-        }
-    }
-
-    const getOrderDetails = async () => {
-        try {
-            const result = await axios.post(`${process.env.REACT_APP_API_URL}/order/getOrderDetails`, { userId: userObject.user._id || '', })
-            setOrderDetails(result.data.result)
-        } catch (error) {
-            console.log(error)
         }
     }
 
@@ -83,8 +66,8 @@ function OrderProduct() {
         if (paymentData.error) {
             console.log(paymentData.error)
         }
-
     }
+
     const closeModal = () => {
         setShowModal(false);
     };
@@ -92,6 +75,7 @@ function OrderProduct() {
     const openModal = () => {
         setShowModal(true);
     };
+
     return (
         <div className=" bg-gray-100">
             <div className=' p-8 rounded-lg shadow-lg'>
@@ -99,7 +83,6 @@ function OrderProduct() {
                 <div className='grid grid-cols-1 md:grid-cols-12 gap-8 justify-center'>
                     <div className="bg-white shadow-md rounded-md md:col-span-8">
                         <h1 className="text-2xl font-bold mb-4">Delivery  Item</h1>
-
                         {
                             addressDetails.isLoading && addressDetails.data.map((details) => {
                                 const { address, landmark, locality, pinCode, name, address_type, phone_number } = details
@@ -127,7 +110,7 @@ function OrderProduct() {
                                                         <th scope="col" class="px-6 py-3">
                                                             Address Type
                                                         </th>
-                                                        <th scope="col" class="px-6 py-3">
+                                                        <th scope="col" class="px-6 py-3 text-center">
                                                             Procced To Pay
                                                         </th>
                                                     </tr>
@@ -152,8 +135,7 @@ function OrderProduct() {
                                                         <td class="px-6 py-4">
                                                             {address_type}
                                                         </td>
-                                                        <td><button className='bg-orange-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded' onClick={makePayment}>CheckOut</button></td>
-                                                        
+                                                        <td class="px-6 py-4"><button className='bg-orange-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded inline-block' onClick={makePayment}>CheckOut</button></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -163,7 +145,6 @@ function OrderProduct() {
                             })
                         }
 
-                        <button onClick={openModal} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add Address</button>
                         {showModal && (
                             <div className="fixed inset-0 z-50 flex justify-center items-center overflow-y-auto bg-gray-500 bg-opacity-75">
                                 <div className="bg-white rounded-lg shadow-lg p-8 w-1/3 h-auto py-8 box-content  h-98 w-98 p-4 border-4 border-indigo-500/100 ">
@@ -199,11 +180,11 @@ function OrderProduct() {
                                         </div>
                                         <div>
                                             <label className="block text-gray-700">Address area & Street</label>
-                                            <input type='text' placeholder='Address area & Street' name='addressArea' value={data.addressArea || ''} onChange={(e) => handleCustomerDetails(e)} className="w-full border border-gray-300 rounded-md p-2" />
+                                            <input type='text' placeholder='Address area & Street' name='locality' value={data.locality || ''} onChange={(e) => handleCustomerDetails(e)} className="w-full border border-gray-300 rounded-md p-2" />
                                         </div>
                                         <div>
                                             <label className="block text-gray-700">City/Distrcit/Town</label>
-                                            <input type='text' placeholder='City/Distrcit/Town' name='landmark' value={data.district || ''} onChange={(e) => handleCustomerDetails(e)} className="w-full border border-gray-300 rounded-md p-2" />
+                                            <input type='text' placeholder='City/Distrcit/Town' name='landmark' value={data.landmark || ''} onChange={(e) => handleCustomerDetails(e)} className="w-full border border-gray-300 rounded-md p-2" />
                                         </div>
                                         <div>
                                             <label className="block text-gray-700"> State</label>
@@ -211,12 +192,12 @@ function OrderProduct() {
                                         </div>
                                         <div>
                                             <label className="block text-gray-700"> Alternat Phone</label>
-                                            <input type='text' placeholder='Alternat Phone' name='alternat_phone' value={data.alternatePhone || ''} onChange={(e) => handleCustomerDetails(e)} className="w-full border border-gray-300 rounded-md p-2" />
+                                            <input type='text' placeholder='Alternat Phone' name='alternat_phone' value={data.alternat_phone || ''} onChange={(e) => handleCustomerDetails(e)} className="w-full border border-gray-300 rounded-md p-2" />
                                         </div>
                                         <div>
                                             <label className="block text-gray-700">Address Type</label>
                                             <input type='text' placeholder='name'
-                                                name='address_type' value={data.addressType || ''} onChange={(e) => handleCustomerDetails(e)} className="w-full border border-gray-300 rounded-md p-2" />
+                                                name='address_type' value={data.address_type || ''} onChange={(e) => handleCustomerDetails(e)} className="w-full border border-gray-300 rounded-md p-2" />
                                         </div>
 
                                         <div>
@@ -226,9 +207,11 @@ function OrderProduct() {
                                 </div>
                             </div>
                         )}
-
-                        
-
+                        <div className="relative h-32 w-32 ">
+                            <button onClick={openModal} className=" absolute inset-x-0 bottom-0 h-16 bg-blue-500 hover:bg-blue-700 text-white font-bold py-6 px-4 rounded">
+                                Add Address
+                            </button>
+                        </div>
                     </div>
                     <div className="bg-white shadow-md rounded-md md:col-span-4 h-96">
                         <TotalPrice />

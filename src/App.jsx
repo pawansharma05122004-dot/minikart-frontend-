@@ -15,7 +15,7 @@ import LoginUser from "./components/Helper/LoginUser";
 import ContextState from "./components/Context/ContextState";
 function App() {
     return (
-    <div>
+    <div className="flex flex-col min-h-screen">
       <ContextState>
         <BrowserRouter >
           <Header />
