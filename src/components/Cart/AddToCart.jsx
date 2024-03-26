@@ -71,8 +71,13 @@ function AddToCart() {
                         </div>
                         <div className="bg-white shadow-md rounded-md md:col-span-4 h-96">
 
-                            <TotalPrice/>
+                            <TotalPrice />
+                            <Link to={`/OrderProduct`}>
+                            <button className='py-2 px-4 bg-orange-600 text-white rounded-md hover:bg-orange-700 focus:outline-none focus:bg-green-700'>Buy Now</button>
+                            </Link>
+                            
                         </div>
+
                     </div>
                     <ToastContainer />
                 </div> :
