@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
+import { getAddToCart } from '../Api/Apis';
+
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import CartHelper from '../Helper/CartHelper';
@@ -9,14 +10,11 @@ import TotalPrice from '../TotalPrice/TotalPrice';
 function AddToCart() {
     const { productId } = useParams();
     const [item, setItem] = useState(null);
-    const userObject = JSON.parse(localStorage.getItem('user'));
+    
     useEffect(() => {
-
-        if (userObject !== null) {
-            const UserID = userObject.user._id;
             const getBuyDetails = async (body) => {
                 try {
-                    const result = await axios.post(`${process.env.REACT_APP_API_URL}/cartItem/getaddToCart`, body);
+                    const result = await getAddToCart()
                     if (result.data.result.length === 0) {
                         return (
                             <>
@@ -29,21 +27,18 @@ function AddToCart() {
                     toast.error(error.response.data.err)
                 }
             };
-            getBuyDetails({
-                userId: UserID,
-            });
-        }
-
+            getBuyDetails();
     }, [productId]);
 
     return (
         <div className=" bg-gray-100">
             {
-                userObject !== null ? <div className=' p-8 rounded-lg shadow-lg'>
+                 <div className=' p-8 rounded-lg shadow-lg'>
                     <div className='grid grid-cols-1 md:grid-cols-12 gap-8 justify-center'>
                         <div className="bg-white shadow-md rounded-md md:col-span-8">
                             <h1 className='text-2xl font-bold mb-4'>Shopping Cart</h1>
                             {item ? item.map((item, index) => {
+                                console.log(item)
                                 return (
                                     <div className=" flex bg-white shadow-md rounded-md p-6 mt-6">
                                         <div className='basis-1/2'>
@@ -80,8 +75,8 @@ function AddToCart() {
 
                     </div>
                     <ToastContainer />
-                </div> :
-                    <CartHelper />
+                </div> 
+                    // <CartHelper />
             }
         </div>
     );

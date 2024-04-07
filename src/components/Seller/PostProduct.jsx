@@ -44,7 +44,7 @@ const PostProduct = () => {
 
         try {
             const postProducts = await postProduct(data)
-            console.log(postProducts)
+            
 
             if (postProducts.status === 200) {
                 toast("Product Added Success Fully");

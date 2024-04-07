@@ -21,22 +21,15 @@ function App() {
         <BrowserRouter>
           <Header />
           <Routes>
-            <Route
-              path="/"
-              element={
-                <Suspense fallback={<div>Loading...</div>}>
-                  <Home />
-                </Suspense>
-              }
-            />
-            <Route path="/productbyid/:productId" element={<ProductById />} />
-            <Route path="/OrderProduct" element={<OrderProduct />} />
-            <Route path="/postProduct" element={<PostProduct />} />
-            <Route path="/addToCart" element={<AddToCart />} />
-            <Route path="/paymentSuccess" element={<PaymentSuccess />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/loginUser" element={<LoginUser />} />
+            <Route path="/" element={<Suspense fallback={<div>Loading...</div>}> <Home /> </Suspense>} />
+            <Route path="/productbyid/:productId" element={<Suspense fallback={<div>Loading...</div>}> <ProductById /> </Suspense>} />
+            <Route path="/OrderProduct" element={<Suspense fallback={<div>Loading...</div>}> <OrderProduct /> </Suspense>} />
+            <Route path="/postProduct" element={<Suspense fallback={<div>Loading...</div>}> <PostProduct /> </Suspense>} />
+            <Route path="/addToCart" element={<Suspense fallback={<div>Loading...</div>}> <AddToCart /> </Suspense>} />
+            <Route path="/paymentSuccess" element={<Suspense fallback={<div>Loading...</div>}> <PaymentSuccess /> </Suspense>} />
+            <Route path="/signup" element={<Suspense fallback={<div>Loading...</div>}> <SignUp /> </Suspense>} />
+            <Route path="/login" element={<Suspense fallback={<div>Loading...</div>}> <Login /> </Suspense>} />
+            <Route path="/loginUser" element={<Suspense fallback={<div>Loading...</div>}> <LoginUser /> </Suspense>} />
             <Route path="*" element={<img src={'https://blog.fluidui.com/assets/images/posts/get-notes.png'} alt='notvalid' />} />
           </Routes>
           <Footer />

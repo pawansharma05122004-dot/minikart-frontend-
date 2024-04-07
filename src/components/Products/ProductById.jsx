@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Spinner } from "@material-tailwind/react";
+import { addToCart } from '../Api/Apis';
+import { toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 
 function ProductById() {
     const { productId } = useParams();
     const [product, setProduct] = useState(null);
-
+    const navigate = useNavigate()
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // Fetch the product details by ID
                 const productResponse = await axios.post(`${process.env.REACT_APP_API_URL}/products/getProductById`, { productById: productId });
-                console.log(productResponse)
                 setProduct(productResponse.data.result);
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -22,8 +23,26 @@ function ProductById() {
         fetchData();
     }, [productId]);
 
+    const addToCartProduct = async (id) => {
+        try {
+            const data = { productId: id, quantity: "1" }
+            const postCartItem = await addToCart(data)
+            console.log(postCartItem)
+            if (postCartItem.status === 201) {
+                navigate("/addToCart")
+            } else {
+                toast.error('Item is already added', {
+                    position: "top-center" 
+                });
+            }
+        } catch (error) {
+            console.log(error.message)
+        }
+    }
+
     return (
         <div className=" bg-gray-100 mx-auto mt-8 px-4">
+            <ToastContainer />
             {product ? (
                 <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
                     <div className=" col-span-2  bg-white shadow-md rounded-md ">
@@ -66,8 +85,7 @@ function ProductById() {
                                 <li>Weight: 254g</li>
                             </ul>
                         </div>
-
-
+                        
                         <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
                         <div className='flex flex-row justify-evenly'>
                             <Link to={`/OrderProduct`}>
@@ -75,11 +93,11 @@ function ProductById() {
                                     Buy Now
                                 </button>
                             </Link>
-                            <Link to={`/addToCart`}>
-                                <button className='block w-full py-2 px-4 bg-blue-700 text-white rounded-md hover:bg-orange-700 focus:outline-none focus:bg-green-700'>
+                            
+                                <button className='block w-full py-2 px-4 bg-blue-700 text-white rounded-md hover:bg-orange-700 focus:outline-none focus:bg-green-700' onClick={()=>addToCartProduct(productId)}>
                                     Add Cart
                                 </button>
-                            </Link>
+                            
                         </div>
                     </div>
 

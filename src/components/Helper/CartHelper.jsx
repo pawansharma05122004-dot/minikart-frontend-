@@ -8,8 +8,8 @@ export default function CartHelper() {
   const navigate = useNavigate()
   const cancelButtonRef = useRef(null)
 
-  const handleViewCart = () => {
-    navigate('/cart')
+  const handleLogin = () => {
+    navigate('/login')
   }
 
   const handleContinueShopping = () => {
@@ -52,9 +52,9 @@ export default function CartHelper() {
               <div className="mt-4 space-x-4 flex justify-center">
                 <button
                   className="inline-flex justify-center w-1/2 rounded-md border border-transparent px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                  onClick={handleViewCart}
+                  onClick={handleLogin}
                 >
-                  View Cart
+                  Login
                 </button>
                 <button
                   className="inline-flex justify-center w-1/2 rounded-md border border-transparent px-4 py-2 bg-gray-200 text-base font-medium text-gray-700 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
