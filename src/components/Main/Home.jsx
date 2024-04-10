@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 import { ContextDataCreate } from '../Context/ContextState';
+import Sidebar from './Sidebar';
 
 const Home = () => {
   const [data, setData] = useState({ data: [], isLoading: false });
@@ -28,7 +29,12 @@ const Home = () => {
   };
 
   return (
-    <div className='bg-gray-100 min-h-screen'>
+
+    <div className='bg-gray-100 flex min-h-screen'>
+      <div className='mg:bg-gray-100 flex min-h-screen'>
+      <Sidebar/>
+      </div>
+      
       <div className='container mx-auto pt-5'>
         {data.isLoading ? (
           <div className='grid grid-cols-2 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4'>
@@ -66,7 +72,7 @@ const Home = () => {
       </div>
     </div>
   );
-  
+
 };
 
 export default Home;
