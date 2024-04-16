@@ -1,44 +1,26 @@
 import React, { useContext, useEffect, useState } from 'react';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { useNavigate } from "react-router-dom";
 import { ContextDataCreate } from '../Context/ContextState';
 import Sidebar from './Sidebar';
 
 const Home = () => {
-  const [data, setData] = useState({ data: [], isLoading: false });
   const contextData = useContext(ContextDataCreate)
-
-  useEffect(() => {
-    if (contextData.searchData.serach) {
-      setData({ data: contextData.searchData.serach, isLoading: true })
-    }
-  }, [contextData.searchData.serach]);
-
-  useEffect(() => {
-    fetchData();
-  }, [])
-
-  const fetchData = async () => {
-    try {
-      const result = await axios.get(`${process.env.REACT_APP_API_URL}/products/getProducts`);
-      setData({ data: result.data.result, isLoading: true });
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
+  // console.log(contextData.productDetails)
 
   return (
 
-    <div className='bg-gray-100 flex min-h-screen'>
-      <div className='mg:bg-gray-100 flex min-h-screen'>
-      <Sidebar/>
-      </div>
-      
+    <div className='bg-gray-100 flex min-h-screen space-x-4 '>
+      {/* <div className='mg:bg-gray-100 flex min-h-screen pt-5 px-5 '>
+        <Sidebar />
+      </div> */}
+
       <div className='container mx-auto pt-5'>
-        {data.isLoading ? (
-          <div className='grid grid-cols-2 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4'>
-            {data.data.map((item) => (
+        {!contextData.productDetails.data.isLoading ? (
+          
+          <div className='grid grid-cols-2 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 px-5'>
+          
+            {contextData.productDetails.data.map((item) => (
+             
               <Link to={`/productbyid/${item._id}`} key={item._id}>
                 <div className='flex flex-col justify-center items-center bg-white shadow-md rounded-lg overflow-hidden'>
                   <div className='box-border h-52 w-52 p-4 border-4 border-gray-200'>

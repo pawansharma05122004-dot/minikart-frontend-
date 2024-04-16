@@ -1,24 +1,32 @@
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 import axios from 'axios'
-
 import { createContext } from "react";
 
 export  const ContextDataCreate = createContext(null)
 
 function ContextState (props) {
-    const [data, setData] = useState({search:[],serachValue:''})
-    const handleSearchProduct = async () => {
-        try {
-            const result = await axios.get(`${process.env.REACT_APP_API_URL}/products/searchProduct?key=${data.serachValue}`)
-            setData({serach:result.data.result})            
-        } catch (err) {
-            console.log(err)
-        }
+    
+    const [data, setData] = useState({ data: [], isLoading: true });
+    const[searchValue,setSearchValue] = useState('')
+    console.log(searchValue)
+  useEffect(() => {
+    fetchData();
+  }, [])
+
+  const fetchData = async () => {
+    try {
+      const result = await axios.get(`${process.env.REACT_APP_API_URL}/products/getProducts`);
+      setData({ data: result.data.result, isLoading: false });
+    } catch (error) {
+      console.error('Error fetching data:', error);
     }
+  };
+  
     const contextValue = {
-        searchData: data,
+        productDetails: data,
         setData:setData,
-        handleSearchProduct: handleSearchProduct
+        setSearchValue:setSearchValue
+        
     };
 
     return (
