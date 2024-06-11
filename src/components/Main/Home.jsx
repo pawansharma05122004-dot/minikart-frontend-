@@ -5,8 +5,7 @@ import Sidebar from './Sidebar';
 
 const Home = () => {
   const contextData = useContext(ContextDataCreate)
-  // console.log(contextData.productDetails)
-
+  
   return (
 
     <div className='bg-gray-100 flex min-h-screen space-x-4 '>

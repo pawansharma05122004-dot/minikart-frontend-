@@ -8,7 +8,7 @@ function ContextState (props) {
     
     const [data, setData] = useState({ data: [], isLoading: true });
     const[searchValue,setSearchValue] = useState('')
-    console.log(searchValue)
+    
   useEffect(() => {
     fetchData();
   }, [])
@@ -25,8 +25,7 @@ function ContextState (props) {
     const contextValue = {
         productDetails: data,
         setData:setData,
-        setSearchValue:setSearchValue
-        
+        setSearchValue:setSearchValue    
     };
 
     return (
