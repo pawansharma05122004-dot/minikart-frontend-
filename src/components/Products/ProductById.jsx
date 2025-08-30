@@ -44,44 +44,110 @@ function ProductById() {
             <ToastContainer />
             {product && (
                 console.log(product.data.product_description),
-                <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
-                 <div className=" col-span-2  bg-white shadow-md rounded-md ">
-                        <img src={product.data.product_img} alt='product' className='w-full h-auto object-cover rounded-t-md' />
-                    </div>
-                    <div className=" col-span-3 row-span-2  p-4 flex flex-col justify-center bg-white shadow-md rounded-md ">
-                        <h2 className="text-2xl font-semibold mb-2">Product Detail</h2>
-                        <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
-                        <div className='p-4'>
-                            <h2 className="text-2xl font-semibold mb-2">Description: {product.data.product_description}</h2>
+                // <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
+                //  <div className=" col-span-2  bg-white shadow-md rounded-md ">
+                //         <img src={product.data.product_img} alt='product' className='w-full h-auto object-cover rounded-t-md' />
+                //     </div>
+                //     <div className=" col-span-3 row-span-2  p-4 flex flex-col justify-center bg-white shadow-md rounded-md ">
+                //         <h2 className="text-2xl font-semibold mb-2">Product Detail</h2>
+                //         <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
+                //         <div className='p-4'>
+                //             <h2 className="text-2xl font-semibold mb-2">Description: {product.data.product_description}</h2>
         
-                            <p className="text-lg text-gray-600 font-semibold mb-2">
-                              Price: {product.data.price}</p>
-                            <p className="text-lg text-gray-600 font-semibold mb-2">Discount: {product.data.discount
-                            }</p>
+                //             <p className="text-lg text-gray-600 font-semibold mb-2">
+                //               Price: {product.data.price}</p>
+                //             <p className="text-lg text-gray-600 font-semibold mb-2">Discount: {product.data.discount
+                //             }</p>
                        
-                        </div>
+                //         </div>
                         
-                        <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
-                        <div className='flex flex-row justify-evenly'>
-                            <Link to={`/OrderProduct`}>
-                                <button className='block w-full py-2 px-4 bg-green-600 text-white rounded-md hover:bg-orange-700 focus:outline-none focus:bg-green-700'>
-                                    Buy Now
-                                </button>
-                            </Link>
+                //         <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
+                //         <div className='flex flex-row justify-evenly'>
+                //             <Link to={`/OrderProduct`}>
+                //                 <button className='block w-full py-2 px-4 bg-green-600 text-white rounded-md hover:bg-orange-700 focus:outline-none focus:bg-green-700'>
+                //                     Buy Now
+                //                 </button>
+                //             </Link>
                             
-                                <button className='block w-full py-2 px-4 bg-blue-700 text-white rounded-md hover:bg-orange-700 focus:outline-none focus:bg-green-700' onClick={()=>addToCartProduct(productId)}>
-                                    Add Cart
-                                </button>
+                //                 <button className='block w-full py-2 px-4 bg-blue-700 text-white rounded-md hover:bg-orange-700 focus:outline-none focus:bg-green-700' onClick={()=>addToCartProduct(productId)}>
+                //                     Add Cart
+                //                 </button>
                             
-                        </div>
-                    </div>
+                //         </div>
+                //     </div>
 
-                    <div className="col-span-1 flex flex-row justify-evenly  shadow-md rounded-md space-x-4">
-                        <img src={product.data.product_img} alt='product' className='object-cover rounded-md box-border h-16 w-32 p-4 border-4 border-black' />
-                        <img src={product.data.product_img} alt='product' className='object-cover rounded-md box-border h-16 w-32 p-4 border-4 border-black' />
-                        <img src={product.data.product_img} alt='product' className='object-cover rounded-md box-border h-16 w-32 p-4 border-4 border-black' />
-                    </div> 
-                </div>
+                //     <div className="col-span-1 flex flex-row justify-evenly  shadow-md rounded-md space-x-4">
+                //         <img src={product.data.product_img} alt='product' className='object-cover rounded-md box-border h-16 w-32 p-4 border-4 border-black' />
+                //         <img src={product.data.product_img} alt='product' className='object-cover rounded-md box-border h-16 w-32 p-4 border-4 border-black' />
+                //         <img src={product.data.product_img} alt='product' className='object-cover rounded-md box-border h-16 w-32 p-4 border-4 border-black' />
+                //     </div> 
+                // </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-5 gap-6 p-4 bg-gray-100">
+  {/* Main Image */}
+  <div className="col-span-2 bg-white shadow-md rounded-md overflow-hidden">
+    <img
+      src={product.data.product_img}
+      alt="product"
+      className="w-full h-full object-cover"
+    />
+  </div>
+
+  {/* Product Detail Section */}
+  <div className="col-span-3 bg-white shadow-md rounded-md p-6 flex flex-col justify-between">
+    <div>
+      <h2 className="text-2xl font-bold text-gray-800 mb-4">Product Detail</h2>
+      <hr className="my-4" />
+      <h3 className="text-lg font-semibold text-gray-700 mb-2">
+        Description:
+      </h3>
+      <p className="text-gray-600 mb-4">
+        {product.data.product_description}
+      </p>
+
+      <div className="mb-4">
+        <p className="text-lg font-bold text-blue-600 mb-1">
+          Price: ${product.data.price}
+        </p>
+        {product.data.discount && (
+          <p className="text-md font-semibold text-red-500">
+            Discount: {product.data.discount}%
+          </p>
+        )}
+      </div>
+      <hr className="my-4" />
+    </div>
+
+    {/* Buttons */}
+    <div className="flex flex-col sm:flex-row gap-4">
+      <Link to="/OrderProduct" className="flex-1">
+        <button className="w-full py-2 px-4 bg-green-600 text-white rounded-md hover:bg-green-700 transition duration-200">
+          Buy Now
+        </button>
+      </Link>
+
+      <button
+        className="flex-1 py-2 px-4 bg-blue-700 text-white rounded-md hover:bg-blue-800 transition duration-200"
+        onClick={() => addToCartProduct(productId)}
+      >
+        Add to Cart
+      </button>
+    </div>
+  </div>
+
+  {/* Thumbnail Images */}
+  <div className="col-span-5 md:col-span-5 flex justify-start gap-4 mt-4 overflow-x-auto bg-white shadow-md rounded-md p-4">
+    {[1, 2, 3].map((_, index) => (
+      <img
+        key={index}
+        src={product.data.product_img}
+        alt={`product-thumbnail-${index}`}
+        className="object-cover h-20 w-32 rounded-md border border-gray-300"
+      />
+    ))}
+  </div>
+</div>
+
 
             ) 
             // : (
